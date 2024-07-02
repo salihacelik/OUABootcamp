@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "951530749279",
+    "project_id": "oua-bootcamp-4f876",
+    "storage_bucket": "oua-bootcamp-4f876.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951530749279:android:119f769c20d8a9bb2d0aea",
+        "android_client_info": {
+          "package_name": "com.muirti.ouabootcamp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-y6z2YuykBmlyv--aA3TE-38-B5rCCMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
