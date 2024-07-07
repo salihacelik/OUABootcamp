@@ -51,17 +51,17 @@ Not Uygulaması, kullanıcıların günlük hayatlarını ve işlerini düzenlem
 
 
 - **Daily Scrum**: Daily Scrum toplantılarının zamansal sebeplerden ötürü Whatsapp ve Discord üzerinden yapılmasına karar verilmiştir. Daily Scrum toplantısı örneği aşağıdaki gibidir:
-  ![Sprint 1 Daily Scrum Chat1](https://raw.githubusercontent.com/Osalihacelik/OUABootcamp/main/ProjectManagement/Sprint1Documents/daily1.png)
-  ![Sprint 1 Daily Scrum Chat2](https://raw.githubusercontent.com/Osalihacelik/OUABootcamp/main/ProjectManagement/Sprint1Documents/daily2.png)
+  ![Sprint 1 Daily Scrum Chat1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/daily1.jpg)
+  ![Sprint 1 Daily Scrum Chat2](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/daily2.jpg)
 
 - **Sprint board update**: Sprint board screenshotları:
-  ![Backlog 1](https://raw.githubusercontent.com/Osalihacelik/OUABootcamp/main/ProjectManagement/Sprint1Documents/sprintboard1.png)
+  ![Backlog 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/sprintboard1.png)
 
 
 - **Ürün Durumu**: Ekran görüntüleri:
-  ![Screenshot 1](https://raw.githubusercontent.com/Osalihacelik/OUABootcamp/main/ProjectManagement/Sprint1Documents/screenshot1.png)
-  ![Screenshot 2](https://raw.githubusercontent.com/Osalihacelik/OUABootcamp/main/ProjectManagement/Sprint1Documents/screenshot2.png)
-  ![Screenshot 3](https://raw.githubusercontent.com/Osalihacelik/OUABootcamp/main/ProjectManagement/Sprint1Documents/screenshot3.png)
+  ![Screenshot 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/screenshot1.png)
+  ![Screenshot 2](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/screenshot2.png)
+  ![Screenshot 3](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/screenshot3.png)
 
 - **Sprint Review**:
   Alınan kararlar: Sesli notlara ek olarak resimli not özelliğinin de eklenmesine karar verildi. Sprint Review katılımcıları: Murat Demir , Saliha Çelik
