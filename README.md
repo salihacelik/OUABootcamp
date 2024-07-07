@@ -59,6 +59,7 @@ Not Uygulaması, kullanıcıların günlük hayatlarını ve işlerini düzenlem
 
 
 - **Ürün Durumu**: Ekran görüntüleri:
+
   ![Screenshot 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/screenshot1.png)
   ![Screenshot 2](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/screenshot2.png)
   ![Screenshot 3](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint1Documents/screenshot3.png)
