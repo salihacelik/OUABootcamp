@@ -44,6 +44,11 @@ Not Uygulaması, kullanıcıların günlük hayatlarını ve işlerini düzenlem
 
 # Sprint 1
 
+- **Sprint Notları**:
+  - Proje yönetimi için Trello'nun kullanılmasına karar verildi.
+  - Giriş sistemi için e-posta girişinin ve Google girişinin kullanılmasına karar verildi.
+  - Veritabanı için Firebase Firestore'un kullanılmasına karar verildi.
+    
 - **Sprint içinde tamamlanması tahmin edilen puan**: 120 Puan
 
 
