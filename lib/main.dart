@@ -1,51 +1,47 @@
 import 'package:flutter/material.dart';
-import 'Auth/auth_screens.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ouabootcamp/Auth/auth_screens.dart';
+import 'package:ouabootcamp/Screens/home_screen.dart';
+
+var currentUserName = null;
+var currentMail = null;
 
 void main() async {
-
-  //await Firebase.initializeApp();
-
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login Demo',
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const StartScreen(),
+      home: AuthWrapper(),
     );
   }
 }
 
-class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
-
-  void _navigateToLogin(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
-  }
-
+class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Başlangıç Ekranı'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => _navigateToLogin(context),
-          child: const Text('Not Tutmaya Başla'),
-        ),
-      ),
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasData) {
+          currentMail = snapshot.data!.email!;
+          print(currentMail);
+          return const HomeScreen();
+        } else {
+          return const LoginScreen();
+        }
+      },
     );
   }
-
 }

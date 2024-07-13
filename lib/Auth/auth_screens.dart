@@ -1,35 +1,46 @@
 import 'package:flutter/material.dart';
-import '../Screens/home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../Screens/home_screen.dart'; // Varsayılan olarak eklenmiş bir yer adı.
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  String _errorMessage = '';
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _login() {
-    String username = _usernameController.text;
-    String password = _passwordController.text;
+  void _login() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
 
-    // Burada giriş işlemlerini gerçekleştirebilirsiniz
-    print('Username: $username, Password: $password');
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
-    );
-
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print('Signed in: ${userCredential.user!.uid}');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      print('Login failed: $e');
+      setState(() {
+        _errorMessage = 'Login failed. Please check your email and password.';
+      });
+    }
   }
 
   void _navigateToRegister(BuildContext context) {
@@ -39,45 +50,49 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _navigateToLogin(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login Screen'),
-        automaticallyImplyLeading: false,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text('Giriş Yap'),
-            ),
-            const SizedBox(height: 10),
-            TextButton(
-              onPressed: () => _navigateToRegister(context),
-              child: const Text('Kayıt Ol'),
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Login Screen'),
+          automaticallyImplyLeading: false,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(labelText: 'Email'),
+              ),
+              TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _login,
+                child: const Text('Giriş Yap'),
+              ),
+              const SizedBox(height: 10),
+              TextButton(
+                onPressed: () => _navigateToRegister(context),
+                child: const Text('Kayıt Ol'),
+              ),
+              if (_errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    _errorMessage,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -85,38 +100,49 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
+  final _nameController = TextEditingController();
   final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  String _errorMessage = '';
 
   @override
   void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
+    _nameController.dispose();
     _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _register() {
-    String firstName = _firstNameController.text;
-    String lastName = _lastNameController.text;
-    String username = _usernameController.text;
-    String password = _passwordController.text;
+  void _register() async {
+    String name = _nameController.text.trim();
+    String username = _usernameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
 
-    // Burada kayıt işlemlerini gerçekleştirebilirsiniz
-    print('First Name: $firstName, Last Name: $lastName, Username: $username, Password: $password');
-
-    // Kayıt işlemi sonrası ana ekrana yönlendirme
-
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print('Registered user: ${userCredential.user!.uid}');
+      setState(() {
+        _errorMessage = 'Registration successful!';
+      });
+    } on FirebaseAuthException catch(e) {
+      print('Registration failed: $e');
+      setState(() {
+        _errorMessage = 'Registration failed: $e';
+      });
+    }
   }
 
   @override
@@ -124,7 +150,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register Screen'),
-
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -132,16 +157,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: _firstNameController,
+              controller: _nameController,
               decoration: const InputDecoration(labelText: 'Ad'),
-            ),
-            TextField(
-              controller: _lastNameController,
-              decoration: const InputDecoration(labelText: 'Soyad'),
             ),
             TextField(
               controller: _usernameController,
               decoration: const InputDecoration(labelText: 'Kullanıcı Adı'),
+            ),
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             TextField(
               controller: _passwordController,
@@ -153,6 +178,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: _register,
               child: const Text('Kayıt Ol'),
             ),
+            if (_errorMessage.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  _errorMessage,
+                  style: TextStyle(color: _errorMessage == 'Registration successful!' ? Colors.green : Colors.red),
+                ),
+              ),
           ],
         ),
       ),
