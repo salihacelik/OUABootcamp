@@ -12,7 +12,20 @@
           "package_name": "com.muirti.ouabootcamp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "951530749279-cojjdbj3qr0nn98ro4s6cf7nh0d8jv7e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.muirti.ouabootcamp",
+            "certificate_hash": "41a872ff4f1c6a3bb0c4d657d6a11cc6bb8cf4a3"
+          }
+        },
+        {
+          "client_id": "951530749279-l5ldpum85pcoq4ktkg55i1j6epng1b5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC-y6z2YuykBmlyv--aA3TE-38-B5rCCMs"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951530749279-l5ldpum85pcoq4ktkg55i1j6epng1b5p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "951530749279-1i4avi8dq9j1mc7oqh1srf9afv1ur7pv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.muirti.ouabootcamp"
+              }
+            }
+          ]
         }
       }
     }

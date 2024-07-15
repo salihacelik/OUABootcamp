@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Screens/home_screen.dart'; // Varsayılan olarak eklenmiş bir yer adı.
+import '../Auth/google_sign_in_provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -43,6 +45,22 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _loginWithGoogle() async {
+    final googleSignInProvider = GoogleSignInProvider();
+    final user = await googleSignInProvider.signInWithGoogle();
+
+    if (user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else {
+      setState(() {
+        _errorMessage = 'Google login failed. Please try again.';
+      });
+    }
+  }
+
   void _navigateToRegister(BuildContext context) {
     Navigator.push(
       context,
@@ -74,9 +92,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: _login,
-                child: const Text('Giriş Yap'),
+                //icon: const FaIcon(FontAwesomeIcons.paperPlane, color: Colors.black),
+                label: const Text('Giriş Yap'),
+
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton.icon(
+                onPressed: _loginWithGoogle,
+                icon: const FaIcon(FontAwesomeIcons.google, color: Colors.black),
+                label: const Text('Google ile Giriş Yap'),
+                style: ElevatedButton.styleFrom(
+                  //primary: Colors.red, // Google rengi
+                ),
               ),
               const SizedBox(height: 10),
               TextButton(
@@ -144,6 +173,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     }
   }
+  void _registerWithGoogle() async {
+    final googleSignInProvider = GoogleSignInProvider();
+    final user = await googleSignInProvider.signInWithGoogle();
+
+    if (user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else {
+      setState(() {
+        _errorMessage = 'Google login failed. Please try again.';
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +222,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ElevatedButton(
               onPressed: _register,
               child: const Text('Kayıt Ol'),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton.icon(
+              onPressed: _registerWithGoogle,
+              icon: const FaIcon(FontAwesomeIcons.google, color: Colors.black),
+              label: const Text('Google ile Devam Et'),
+              style: ElevatedButton.styleFrom(
+                //primary: Colors.red, // Google rengi
+              ),
             ),
             if (_errorMessage.isNotEmpty)
               Padding(

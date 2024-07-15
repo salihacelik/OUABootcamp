@@ -9,7 +9,7 @@ Takım Flutter 78
 - Murat Demir: Scrum Master / Developer
 - Sarya Engin: Developer
 - Rümeysa Kayam: Developer
-- Muhammed Emre Avan: Developer
+- Muhammed Emre Avan: Aktif Olmayan Üye
 
 
 ## Ürün İsmi
