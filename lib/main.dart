@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ouabootcamp/Auth/auth_screens.dart';
 import 'package:ouabootcamp/Screens/home_screen.dart';
+import 'screens/note_home_page.dart';
 
 var currentUserName = null;
 var currentMail = null;
