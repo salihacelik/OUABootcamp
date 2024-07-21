@@ -117,8 +117,13 @@ Not Uygulaması, kullanıcıların günlük hayatlarını ve işlerini düzenlem
 
 - **Ürün Durumu**: Ekran görüntüleri:
 
+  ![Screenshot 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot1.png)
+  ![Screenshot 2](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot2.png)
+  ![Screenshot 3](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot3.png)
+  ![Screenshot 4](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot4.png)
+
   ![Video 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/video.mp4)
-  
+
   - **Sprint Review**:
     Alınan kararlar: Tasarım yönüne daha yoğun çalışılması gerektiğine ve kullanıcı arayüzünün daha kullanıcı dostu ve estetik hale getirilmesine karar verildi. Ayrıca, veri tabanındaki eksiklerin tamamlanması ve veri yapılarının optimize edilmesi gerektiği belirlendi. Tasarlanan kısımların kodlarının da yazılıp en kısa sürede işlevsellik kazanmasını sağlamanın önemi vurgulandı. Sprint Review katılımcıları: Murat Demir , Saliha Çelik, Sarya Engin, Rümeysa Kayam
 
