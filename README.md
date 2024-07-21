@@ -117,10 +117,10 @@ Not Uygulaması, kullanıcıların günlük hayatlarını ve işlerini düzenlem
 
 - **Ürün Durumu**: Ekran görüntüleri:
 
-  ![Screenshot 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot1.png)
-  ![Screenshot 2](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot2.png)
-  ![Screenshot 3](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot3.png)
-  ![Screenshot 4](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot4.png)
+  ![Screenshot 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot1.jpg)
+  ![Screenshot 2](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot2.jpg)
+  ![Screenshot 3](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot3.jpg)
+  ![Screenshot 4](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/screenshot4.jpg)
 
   ![Video 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/video.mp4)
 
