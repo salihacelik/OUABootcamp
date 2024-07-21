@@ -85,3 +85,55 @@ Not Uygulaması, kullanıcıların günlük hayatlarını ve işlerini düzenlem
 [Flutter Team 78 Trello Backlog Board](https://trello.com/b/dmVRpaMQ/oua)
 
 ---
+
+# Sprint 2
+
+- **Sprint Notları**:
+  - Product backlog item’larına tıklandığında hikayelerin puanları görüntülenebilir.
+  - Kullanıcı girişleri Google veya e-posta ile yapılabilecek şekilde ayarlandı.
+  - Kullanıcının giriş yaptığı cihazda tekrar giriş yapmasına gerek kalmaması sağlandı.
+  - Kullanıcı giriş yaptıktan sonra ana menüye yönlendirme eklendi. 
+  - Kullanıcıların not işlevlerini kullanabilmesi sağlandı. 
+  - Kullanıcı profil ekranının tasarımı tamamlandı.
+  
+- **Sprint içinde tamamlanması tahmin edilen puan**: 222 Puan
+
+
+- **Puan tamamlama mantığı**: Toplamda projenin geri kalan kısmında tamamlanması gereken 490 puanlık bir backlog bulunmaktadır. İlk sprintte 120 puan tamamlandıktan sonra, ikinci sprint daha yoğun iş yüküyle devam edeceği için ikinci sprint için 220 puan planlanmıştır.
+
+
+- **Daily Scrum**: Daily Scrum toplantıları ilk sprinte göre daha fazla yapıldı ve müsaitlik durumu Whatsapp üzerinden anketlerle belirlendi. Discord sunucumuz üzerinden ortak çalışmalar yapıldı. Daily Scrum toplantısı örneklerimiz aşağıdaki gibidir:
+  ![Sprint 2 Daily Scrum Chat1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/daily1.jpg)
+  ![Sprint 2 Daily Scrum Chat2](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/daily2.jpg)
+  ![Sprint 2 Daily Scrum Chat3](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/daily3.jpg)
+  ![Sprint 2 Daily Scrum Chat4](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/daily4.jpg)
+  ![Sprint 2 Daily Scrum Chat5](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/daily5.jpg)
+  ![Sprint 2 Daily Scrum Chat6](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/daily6.jpg)
+
+
+- **Sprint board update**: Sprint board screenshotları:
+  ![Backlog 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/sprintboard1.png)
+
+
+- **Ürün Durumu**: Ekran görüntüleri:
+
+  ![Video 1](https://github.com/salihacelik/OUABootcamp/blob/main/ProjectManagement/Sprint2Documents/video.mp4)
+  
+  - **Sprint Review**:
+    Alınan kararlar: Tasarım yönüne daha yoğun çalışılması gerektiğine ve kullanıcı arayüzünün daha kullanıcı dostu ve estetik hale getirilmesine karar verildi. Ayrıca, veri tabanındaki eksiklerin tamamlanması ve veri yapılarının optimize edilmesi gerektiği belirlendi. Tasarlanan kısımların kodlarının da yazılıp en kısa sürede işlevsellik kazanmasını sağlamanın önemi vurgulandı. Sprint Review katılımcıları: Murat Demir , Saliha Çelik, Sarya Engin, Rümeysa Kayam
+
+- **Sprint Retrospective:**
+  - Muhammet Emre takımdan ayrıldığı için görev dağılımları tekrardan düzenlenmiştir.
+  - Takım üyelerinin gelecek sprintlerde aktif olması gerektiğine vurgu yapılmıştır.
+  - Yeni sayfalar eklenmiş görev dağılımı yapılmak için toplantı tarihi ayarlanmıştır.
+  - Günlük kısa toplantılar yapılmasına karar verilmiştir.
+  - Github kullanımı konusunda yeterli bilgiye hala ulaşamadığımızı ve kendimizi geliştirmemiz gerektiği vurgulanmıştır.
+
+
+---
+
+## Product Backlog URL
+
+[Flutter Team 78 Trello Backlog Board](https://trello.com/b/dmVRpaMQ/oua)
+
+---
