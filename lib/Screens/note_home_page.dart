@@ -138,20 +138,7 @@ class _NoteHomePageState extends State<NoteHomePage> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              title: Text('Geri Dönüşüm Kutusu'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RecycleBinPage(
-                      recycleBinNotes: recycleBinNotes,
-                      onRestore: _restoreNoteFromBin,
-                    ),
-                  ),
-                );
-              },
-            ),
+
             ListTile(
               title: Text('Profil'),
               onTap: () {
@@ -161,23 +148,13 @@ class _NoteHomePageState extends State<NoteHomePage> {
                 );
               },
             ),
-            ListTile(
-              title: Text('Ayarlar'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
-                );
-              },
-            ),
+
             ListTile(
               title: Text('Favoriler'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FavoritesPage(
-                  favoriteNotes: favoriteNotes,
-                  onRestore: _restoreNoteFromFav,))
+                  MaterialPageRoute(builder: (context) => FavoritesPage()),
                 );
               },
             ),

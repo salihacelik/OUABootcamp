@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ouabootcamp/Auth/auth_screens.dart';
 import 'package:ouabootcamp/Screens/home_screen.dart';
+import 'package:ouabootcamp/screens/add_note_page.dart';
 import 'screens/note_home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -56,7 +57,7 @@ class AuthWrapper extends StatelessWidget {
               } else if (userDetailsSnapshot.hasData) {
                 currentName = userDetailsSnapshot.data!['name']!;
                 currentUserName = userDetailsSnapshot.data!['username']!;
-                return const HomeScreen();
+                return NoteHomePage();
               } else {
                 return const LoginScreen();
               }
