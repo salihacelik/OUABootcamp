@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ouabootcamp/main.dart';
 import '../Screens/home_screen.dart'; // Varsayılan olarak eklenmiş bir yer adı.
 import '../Auth/google_sign_in_provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -23,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _login() async {
+  Future<void> _login() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
@@ -33,15 +35,33 @@ class _LoginScreenState extends State<LoginScreen> {
         password: password,
       );
       print('Signed in: ${userCredential.user!.uid}');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+
+      // Kullanıcı bilgilerini al
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).get();
+      currentName = userDoc['name'];
+      currentUserName = userDoc['username'];
+      currentMail = userDoc['email'];
+
+      /*
+      // Bilgileri yazdır
+      print(currentName);
+      print(currentUserName);
+      print(currentMail);
+      */
+      if (mounted) {
+        // HomeScreen'e yönlendir
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       print('Login failed: $e');
-      setState(() {
-        _errorMessage = 'Login failed. Please check your email and password.';
-      });
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'Login failed. Please check your email and password.';
+        });
+      }
     }
   }
 
@@ -163,6 +183,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: password,
       );
       print('Registered user: ${userCredential.user!.uid}');
+      await FirebaseFirestore.instance.collection('users').doc(userCredential.user?.uid).set({
+        'name': _nameController.text,
+        'username': _usernameController.text,
+        'email': _emailController.text,
+      });
+
       setState(() {
         _errorMessage = 'Registration successful!';
       });

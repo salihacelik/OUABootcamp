@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ouabootcamp/main.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -8,29 +9,57 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = "Ad";
-  String surname = "Soyad";
-  String email = "email@example.com";
+  String name = currentName;
+  String username = currentUserName;
+  String email = currentMail;
   String profileImage = "https://via.placeholder.com/150"; // Placeholder image
 
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _nameController.text = name;
-    _surnameController.text = surname;
-    _emailController.text = email;
+    _loadUserProfile();
   }
 
-  void _editProfile() {
-    setState(() {
-      name = _nameController.text;
-      surname = _surnameController.text;
-      email = _emailController.text;
-    });
+  Future<void> _loadUserProfile() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      setState(() {
+        name = userDoc.get('name');
+        username = userDoc.get('username');
+        email = userDoc.get('email');
+        _nameController.text = name;
+        _usernameController.text = username;
+        _emailController.text = email;
+      });
+    }
+  }
+
+  void _editProfile() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        name = _nameController.text;
+        username = _usernameController.text;
+        email = _emailController.text;
+      });
+
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+        'name': name,
+        'username': username,
+        'email': email,
+      });
+
+      // Update global state if needed
+      // e.g., update `currentUserName` and `currentName`
+    }
   }
 
   void _pickImage() async {
@@ -54,6 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
               onTap: _pickImage,
@@ -63,17 +93,18 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             SizedBox(height: 16),
-            TextField(
+            _buildTextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Ad'),
+              label: 'İsim',
             ),
-            TextField(
-              controller: _surnameController,
-              decoration: InputDecoration(labelText: 'Soyad'),
+            _buildTextField(
+              controller: _usernameController,
+              label: 'Kullanıcı Adı',
             ),
-            TextField(
+            _buildTextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              label: 'Email',
+              enabled: false,
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -85,5 +116,32 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-}
 
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    bool enabled = true,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              labelText: label,
+            ),
+            enabled: enabled,
+          ),
+        ),
+        if (enabled)
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              // Handle edit action if needed
+            },
+          ),
+      ],
+    );
+  }
+}

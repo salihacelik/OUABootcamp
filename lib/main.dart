@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ouabootcamp/Auth/auth_screens.dart';
 import 'package:ouabootcamp/Screens/home_screen.dart';
 import 'screens/note_home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+var currentName = null;
 var currentUserName = null;
 var currentMail = null;
 
@@ -28,6 +30,14 @@ class MyApp extends StatelessWidget {
 }
 
 class AuthWrapper extends StatelessWidget {
+  Future<Map<String, String>> _getUserDetails(String uid) async {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    return {
+      'name': userDoc['name'],
+      'username': userDoc['username'],
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -37,8 +47,21 @@ class AuthWrapper extends StatelessWidget {
           return const CircularProgressIndicator();
         } else if (snapshot.hasData) {
           currentMail = snapshot.data!.email!;
-          print(currentMail);
-          return const HomeScreen();
+
+          return FutureBuilder<Map<String, String>>(
+            future: _getUserDetails(snapshot.data!.uid),
+            builder: (context, userDetailsSnapshot) {
+              if (userDetailsSnapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (userDetailsSnapshot.hasData) {
+                currentName = userDetailsSnapshot.data!['name']!;
+                currentUserName = userDetailsSnapshot.data!['username']!;
+                return const HomeScreen();
+              } else {
+                return const LoginScreen();
+              }
+            },
+          );
         } else {
           return const LoginScreen();
         }

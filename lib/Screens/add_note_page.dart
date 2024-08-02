@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddNotePage extends StatefulWidget {
   final String? note;
-
-  AddNotePage({this.note});
+  final String? noteId;
+  AddNotePage({this.note, this.noteId});
 
   @override
   _AddNotePageState createState() => _AddNotePageState();
@@ -18,10 +20,32 @@ class _AddNotePageState extends State<AddNotePage> {
     _noteController = TextEditingController(text: widget.note);
   }
 
-  void _saveNote() {
+
+  Future<void> _saveNote() async {
     String noteText = _noteController.text;
     if (noteText.isNotEmpty) {
-      Navigator.pop(context, noteText);
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+
+      if (widget.noteId == null) {
+        // Yeni not ekleme
+        await FirebaseFirestore.instance.collection('written_notes').add({
+          'note': noteText,
+          'userID': userId,
+          'timestamp': FieldValue.serverTimestamp(),
+          'isFavorite' : false,
+        });
+        print('Not eklendi: $noteText');
+      } else {
+
+        // Mevcut notu güncelleme
+        await FirebaseFirestore.instance.collection('written_notes').doc(widget.noteId).update({
+          'note': noteText,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+        print('Not güncellendi: ${widget.noteId}');
+      }
+
+      if(mounted) Navigator.pop(context);
     }
   }
 
@@ -55,7 +79,7 @@ class _AddNotePageState extends State<AddNotePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Not Ekle'),
+            title: Text(widget.noteId == null ? 'Yeni Not' : 'Notu Düzenle'),
           actions: [
             IconButton(
               icon: Icon(Icons.save),

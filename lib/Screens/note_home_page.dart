@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ouabootcamp/Auth/auth_screens.dart';
 import 'add_note_page.dart';
 import 'recycle_bin_page.dart';
 import 'profile_page.dart';
@@ -14,6 +17,10 @@ class NoteHomePage extends StatefulWidget {
 class _NoteHomePageState extends State<NoteHomePage> {
   List<String> notes = [];
   List<String> recycleBinNotes = [];
+  List<String> favoriteNotes = [];
+
+  late TextEditingController _noteController;
+  String? _editingNoteId;
 
   void _addNote() async {
     final newNote = await Navigator.push(
@@ -27,7 +34,27 @@ class _NoteHomePageState extends State<NoteHomePage> {
     }
   }
 
-  void _editNote(int index) async {
+  Future<void> _editNote(String noteId, String noteText) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddNotePage(
+          noteId: noteId,
+          note: noteText,
+        ),
+      ),
+    );
+    setState(() {});
+  }
+
+  /*
+  Future<void> _editNote(String noteId, String noteText) async {
+    setState(() {
+      _editingNoteId = noteId;
+      _noteController.text = noteText;
+    });
+  }*/
+  /*void _editNote(int index) async {
     final editedNote = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => AddNotePage(note: notes[index])),
@@ -37,13 +64,34 @@ class _NoteHomePageState extends State<NoteHomePage> {
         notes[index] = editedNote;
       });
     }
+  }*/
+  Future<void> _deleteNote(String noteId) async {
+    await FirebaseFirestore.instance.collection('written_notes').doc(noteId).delete();
+    print('Not silindi: $noteId');
   }
 
-  void _deleteNote(int index) {
-    setState(() {
-      recycleBinNotes.add(notes[index]);
-      notes.removeAt(index);
-    });
+  Future<void> _toggleFavorite(String noteId) async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    DocumentReference noteRef = FirebaseFirestore.instance.collection('written_notes').doc(noteId);
+
+    try {
+      DocumentSnapshot docSnapshot = await noteRef.get();
+
+      if (docSnapshot.exists) {
+        bool isFavorite = docSnapshot.get('isFavorite') ?? false;
+
+        // Favori durumu değiştir
+        await noteRef.update({
+          'isFavorite': !isFavorite,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+        print('Favori durumu güncellendi: ${!isFavorite}');
+      } else {
+        print('Döküman bulunamadı');
+      }
+    } catch (e) {
+      print('Hata: $e');
+    }
   }
 
   void _restoreNoteFromBin(int index) {
@@ -52,9 +100,24 @@ class _NoteHomePageState extends State<NoteHomePage> {
       recycleBinNotes.removeAt(index);
     });
   }
+  void _restoreNoteFromFav(int index) {
+    setState(() {
+      notes.add(favoriteNotes[index]);
+      favoriteNotes.removeAt(index);
+    });
+  }
 
+  void _signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
   @override
   Widget build(BuildContext context) {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Notlarım'),
@@ -112,7 +175,9 @@ class _NoteHomePageState extends State<NoteHomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FavoritesPage()),
+                  MaterialPageRoute(builder: (context) => FavoritesPage(
+                  favoriteNotes: favoriteNotes,
+                  onRestore: _restoreNoteFromFav,))
                 );
               },
             ),
@@ -125,44 +190,82 @@ class _NoteHomePageState extends State<NoteHomePage> {
                 );
               },
             ),
+            ListTile(
+              title: Text('Çıkış Yap'),
+              onTap: () => _signOut(context)
+              ,
+            ),
           ],
         ),
       ),
-      body: ListView.builder(
-        itemCount: notes.length,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: EdgeInsets.all(8.0),
-            child: ListTile(
-              title: Text(
-                notes[index],
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () => _editNote(index),
-              onLongPress: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text('Sil?'),
-                    content: Text('Bu notu silmek istiyor musunuz?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text('İptal'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _deleteNote(index);
-                        },
-                        child: Text('Sil'),
-                      ),
-                    ],
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('written_notes')
+            .where('userID', isEqualTo: userId)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('Henüz notunuz yok.'));
+          }
+
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              DocumentSnapshot noteDoc = snapshot.data!.docs[index];
+              String noteId = noteDoc.id;
+              String noteText = noteDoc['note'];
+              bool isFavorite = noteDoc['isFavorite'];
+              //notes.add(noteText);
+
+              return GestureDetector(
+                onLongPress: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                      title: Text('Sil?'),
+                  content: Text('Bu notu silmek istiyor musunuz?'),
+                  actions: [
+                  TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('İptal'),
                   ),
-                );
-              },
-            ),
+                  TextButton(
+                  onPressed: () {
+                  Navigator.pop(context);
+                  _deleteNote(noteId);
+                  },
+                  child: Text('Sil'),
+                  ),
+                  ],
+
+                  ),);
+                },
+                child: Card(
+                  margin: EdgeInsets.all(8.0),
+                  elevation: 4.0,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(16.0),
+                    title: Text(noteText),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.favorite,
+                        color: isFavorite ? Colors.red : Colors.grey,
+                      ),
+                      onPressed: () {
+                        _toggleFavorite(noteId);
+                      },
+                    ),
+                    onTap: () {
+                      _editNote(noteId, noteText);
+                    },
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
