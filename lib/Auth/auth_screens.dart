@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ouabootcamp/Screens/note_home_page.dart';
 import 'package:ouabootcamp/main.dart';
 import '../Screens/home_screen.dart'; // Varsayılan olarak eklenmiş bir yer adı.
 import '../Auth/google_sign_in_provider.dart';
@@ -52,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // HomeScreen'e yönlendir
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (context) =>  NoteHomePage()),
         );
       }
     } on FirebaseAuthException catch (e) {
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => NoteHomePage()),
       );
     } else {
       setState(() {
@@ -206,7 +207,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (user != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => NoteHomePage()),
       );
     } else {
       setState(() {
